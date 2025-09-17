@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Modal from "../components/models/Modal";
+import CharacterDetails from "../components/models/CharacterDetails";
 
 const Characters = () => {
   const [characters, setCharacters] = useState([]);
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false);
+  const [selectedCharacter, setSelectedCharacter] = useState(null);
 
   useEffect(() => {
     const fetchCharacters = async () => {
@@ -19,7 +21,10 @@ const Characters = () => {
     <div>
       <h1>Characters Page</h1>
       {characters.map((character) => (
-        <div key={character.id}>
+        <div key={character.id} onClick={() => {
+          setSelectedCharacter(character);
+          setCharacterModalOpen(true);
+        }}>
           <h2>{character.name}</h2>
           <img src={character.image} alt={character.name} />
         </div>
@@ -30,7 +35,7 @@ const Characters = () => {
       isOpen={isCharacterModalOpen}
       onClose={() => setCharacterModalOpen(false)}
     >
-      Character Details
+      <CharacterDetails character={selectedCharacter} />
     </Modal>
     </>
   );
