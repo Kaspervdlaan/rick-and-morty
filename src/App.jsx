@@ -10,7 +10,7 @@ import LocationDetailPage from "./pages/LocationDetailPage"
 
 const App = () => {
   return (
-    <div className="h-screen bg-green-300">
+    <div className="h-screen bg-green-400">
       <Header />
       <Wrapper> 
         <Routes>
