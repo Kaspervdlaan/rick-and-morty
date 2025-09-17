@@ -1,7 +1,7 @@
 const Header = () => {
   return (
-    <header className="w-full bg-gray-900 text-white shadow-md">
-      <div className="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
+    <header className="w-full bg-green-800 text-white shadow-md">
+      <div className="max-w-6xl mx-auto flex items-center justify-between px-4 py-4">
         <h1 className="text-2xl font-bold tracking-tight">Rick & Morty</h1>
         <nav>
           <ul className="flex space-x-4">
@@ -10,7 +10,7 @@ const Header = () => {
                 href="/"
                 className="hover:text-green-400 transition-colors duration-200"
               >
-                Home
+                Characters
               </a>
             </li>
             <li>

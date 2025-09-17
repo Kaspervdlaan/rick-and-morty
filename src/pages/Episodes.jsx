@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-import Modal from "../components/models/Modal";
+import EpisodeCard from "../components/cards/EpisodeCard";
+import Loading from "../components/utils/Loading"; // ✅ new import
+
+import { useNavigate } from "react-router";
 
 const Episodes = () => {
   const [episodes, setEpisodes] = useState([]);
   const [page, setPage] = useState(1);
   const [pageInfo, setPageInfo] = useState(null);
-  const [isEpisodeModalOpen, setEpisodeModalOpen] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchEpisodes = async () => {
@@ -26,13 +30,9 @@ const Episodes = () => {
 
   return (
     <>
-      <div>
-        <h1>Episodes Page</h1>
+      <div className="flex flex-wrap gap-4 justify-center">
         {episodes.map((episode) => (
-          <div key={episode.id} className="border-b border-gray-200 py-2">
-            <h2 className="font-bold">{episode.name}</h2>
-            <p>Air Date: {episode.air_date}</p>
-          </div>
+          <EpisodeCard key={episode.id} episode={episode} onClick={() => {navigate(`/episodes/${episode.id}`)}} />
         ))}
       </div>
 
@@ -56,13 +56,6 @@ const Episodes = () => {
           Next
         </button>
       </div>
-
-      <Modal
-        isOpen={isEpisodeModalOpen}
-        onClose={() => setEpisodeModalOpen(false)}
-      >
-        Episode Details
-      </Modal>
     </>
   );
 };

@@ -3,6 +3,7 @@ import axios from "axios";
 import Modal from "../components/models/Modal";
 import CharacterDetails from "../components/models/CharacterDetails";
 import CharacterCard from "../components/cards/CharacterCard";
+import Loading from "../components/utils/Loading"; // ✅ new import
 
 const Characters = () => {
   const [characters, setCharacters] = useState([]);
@@ -10,10 +11,12 @@ const Characters = () => {
   const [pageInfo, setPageInfo] = useState(null);
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchCharacters = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(
           `https://rickandmortyapi.com/api/character/?page=${page}`
         );
@@ -21,6 +24,8 @@ const Characters = () => {
         setPageInfo(response.data.info);
       } catch (error) {
         console.error("Error fetching characters:", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchCharacters();
@@ -28,39 +33,44 @@ const Characters = () => {
 
   return (
     <>
-      <div className="flex flex-wrap gap-4 justify-center">
-        {characters.map((character) => (
-          <CharacterCard 
-            key={character.id}
-            character={character} 
-            onClick={() => {
-              setSelectedCharacter(character);
-              setCharacterModalOpen(true);
-            }}
-          />
-        ))}
+      <div className="flex flex-wrap gap-4 justify-center min-h-[200px]">
+        {loading ? (
+          <Loading subject="characters" />
+        ) : (
+          characters.map((character) => (
+            <CharacterCard
+              key={character.id}
+              character={character}
+              onClick={() => {
+                setSelectedCharacter(character);
+                setCharacterModalOpen(true);
+              }}
+            />
+          ))
+        )}
       </div>
 
-      {/* Pagination controls */}
-      <div className="flex justify-center items-center gap-4 mt-6">
-        <button
-          disabled={!pageInfo?.prev}
-          onClick={() => setPage((prev) => prev - 1)}
-          className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
-        >
-          Prev
-        </button>
-        <span>
-          Page {page} of {pageInfo?.pages || "?"}
-        </span>
-        <button
-          disabled={!pageInfo?.next}
-          onClick={() => setPage((prev) => prev + 1)}
-          className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
-        >
-          Next
-        </button>
-      </div>
+      {!loading && (
+        <div className="flex justify-center items-center gap-4 mt-6">
+          <button
+            disabled={!pageInfo?.prev}
+            onClick={() => setPage((prev) => prev - 1)}
+            className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+          >
+            Prev
+          </button>
+          <span>
+            Page {page} of {pageInfo?.pages || "?"}
+          </span>
+          <button
+            disabled={!pageInfo?.next}
+            onClick={() => setPage((prev) => prev + 1)}
+            className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+          >
+            Next
+          </button>
+        </div>
+      )}
 
       <Modal
         isOpen={isCharacterModalOpen}

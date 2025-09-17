@@ -9,12 +9,11 @@ const CharacterDetails = ({ character }) => {
 
   return (
     <div className="max-w-md mx-auto bg-white rounded-2xl overflow-hidden mt-2">
-      {/* Header with image */}
       <div className="flex items-center p-1 space-x-4">
         <img
           src={character.image}
           alt={character.name}
-          className="w-24 h-24 rounded-full border-2 border-gray-200 object-cover"
+          className="w-48 h-48 rounded-full border-2 border-gray-200 object-cover"
         />
         <div>
           <h2 className="text-2xl font-bold text-gray-900">{character.name}</h2>
