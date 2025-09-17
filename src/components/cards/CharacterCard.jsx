@@ -1,9 +1,11 @@
+import {sliceString} from "../../utils/sliceString";
+
 const CharacterCard = ({ character, onClick }) => {
   return (
     <div
       key={character.id}
       onClick={() => onClick(character)}
-      className="flex items-center px-4 py-2 w-80 bg-white rounded-xl shadow-md overflow-hidden cursor-pointer hover:shadow-lg hover:scale-[1.02] transition-all duration-200"
+      className="flex items-center px-4 py-2 w-80 bg-white rounded-xl shadow-md overflow-hidden cursor-pointer hover:shadow-lg hover:scale-[1.02] transition-all duration-100"
     >
       {/* Image */}
       <img
@@ -14,7 +16,7 @@ const CharacterCard = ({ character, onClick }) => {
 
       {/* Info */}
       <div className="p-4">
-        <h3 className="text-base font-semibold text-gray-900 truncate">{character.name}</h3>
+        <h3 className="text-base font-semibold text-gray-900 truncate">{sliceString(character.name)}</h3>
         <p className="text-xs text-gray-600">{character.species}</p>
 
         <span

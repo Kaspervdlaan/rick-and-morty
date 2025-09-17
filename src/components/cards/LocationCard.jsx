@@ -1,3 +1,5 @@
+import { sliceString } from "../../utils/sliceString";
+
 const LocationCard = ({ location, onClick }) => {
   return (
     <div
@@ -6,7 +8,7 @@ const LocationCard = ({ location, onClick }) => {
     >
       {/* Info */}
       <div className="p-4">
-        <h3 className="text-base font-semibold text-gray-900 truncate">{location.name}</h3>
+        <h3 className="text-base font-semibold text-gray-900 truncate">{sliceString(location.name)}</h3>
         <p className="text-xs text-gray-600">Type: {location.type || "Unknown"}</p>
         <p className="text-xs text-gray-600">Dimension: {location.dimension || "Unknown"}</p>
 
