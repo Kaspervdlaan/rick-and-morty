@@ -2,7 +2,7 @@ const EpisodeCard = ({ episode, onClick }) => {
   return (
     <div
       onClick={() => onClick(episode)}
-      className="flex items-center px-4 w-80 bg-white rounded-xl shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
+      className="flex items-center px-4 w-80 bg-white rounded-xl shadow-md overflow-hidden cursor-pointer hover:shadow-lg hover:scale-[1.02] transition-all duration-100"
     >
       {/* Info */}
       <div className="p-4">

@@ -6,10 +6,11 @@ import Locations from "./pages/Locations"
 import Header from "./components/Header"
 import Wrapper from "./components/utils/Wrapper"
 import EpisodeDetailPage from "./pages/EpisodeDetailPage"
+import LocationDetailPage from "./pages/LocationDetailPage"
 
 const App = () => {
   return (
-    <>
+    <div className="h-screen bg-green-300">
       <Header />
       <Wrapper> 
         <Routes>
@@ -17,9 +18,10 @@ const App = () => {
           <Route path="/episodes" element={<Episodes />} />
           <Route path="/episodes/:id" element={<EpisodeDetailPage />} />
           <Route path="/locations" element={<Locations />} />
+          <Route path="/locations/:id" element={<LocationDetailPage />} />
         </Routes>
       </Wrapper>
-    </>
+    </div>
   )
 }
 

@@ -3,7 +3,7 @@ import axios from "axios";
 import Modal from "../components/models/Modal";
 import CharacterDetails from "../components/models/CharacterDetails";
 import CharacterCard from "../components/cards/CharacterCard";
-import Loading from "../components/utils/Loading"; // ✅ new import
+import Loading from "../components/utils/Loading";
 
 const Characters = () => {
   const [characters, setCharacters] = useState([]);

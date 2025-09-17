@@ -1,6 +1,6 @@
 const Header = () => {
   return (
-    <header className="w-full bg-green-800 text-white shadow-md">
+    <header className="w-full bg-green-800 text-white pb-4">
       <div className="max-w-6xl mx-auto flex items-center justify-between px-4 py-4">
         <h1 className="text-2xl font-bold tracking-tight">Rick & Morty</h1>
         <nav>

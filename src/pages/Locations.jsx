@@ -1,17 +1,23 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-import Modal from "../components/models/Modal";
+import LocationCard from "../components/cards/LocationCard";
+import Loading from "../components/utils/Loading";
+
+import { useNavigate } from "react-router";
 
 const Locations = () => {
   const [locations, setLocations] = useState([]);
   const [page, setPage] = useState(1);
   const [pageInfo, setPageInfo] = useState(null);
-  const [isLocationModalOpen, setLocationModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchLocations = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(
           `https://rickandmortyapi.com/api/location?page=${page}`
         );
@@ -19,6 +25,8 @@ const Locations = () => {
         setPageInfo(response.data.info);
       } catch (error) {
         console.error("Error fetching locations:", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchLocations();
@@ -26,21 +34,26 @@ const Locations = () => {
 
   return (
     <>
-      <div>
-        <h1>Locations Page</h1>
-        {locations.map((location) => (
-          <div key={location.id} className="border-b border-gray-200 py-2">
-            <h2 className="font-bold">{location.name}</h2>
-            <p>Type: {location.type}</p>
-            <p>Dimension: {location.dimension}</p>
-          </div>
-        ))}
-      </div>
+      {loading ? (
+        <div className="flex justify-center py-10">
+          <Loading />
+        </div>
+      ) : (
+        <div className="flex flex-wrap gap-4 justify-center">
+          {locations.map((location) => (
+            <LocationCard
+              key={location.id}
+              location={location}
+              onClick={() => navigate(`/locations/${location.id}`)}
+            />
+          ))}
+        </div>
+      )}
 
       {/* Pagination controls */}
       <div className="flex justify-center gap-4 mt-6">
         <button
-          disabled={!pageInfo?.prev}
+          disabled={!pageInfo?.prev || loading}
           onClick={() => setPage((prev) => prev - 1)}
           className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
         >
@@ -50,20 +63,13 @@ const Locations = () => {
           Page {page} of {pageInfo?.pages || "?"}
         </span>
         <button
-          disabled={!pageInfo?.next}
+          disabled={!pageInfo?.next || loading}
           onClick={() => setPage((prev) => prev + 1)}
           className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
         >
           Next
         </button>
       </div>
-
-      <Modal
-        isOpen={isLocationModalOpen}
-        onClose={() => setLocationModalOpen(false)}
-      >
-        Location Details
-      </Modal>
     </>
   );
 };
