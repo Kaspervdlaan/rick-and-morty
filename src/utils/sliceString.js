@@ -1,4 +1,4 @@
-export function sliceString(str) {
+export function sliceString(str, maxLength = 20) {
   if (typeof str !== 'string') return '';
-  return str.length > 20 ? str.slice(0, 20) + '...' : str;
+  return str.length > maxLength ? str.slice(0, maxLength - 4) + '...' : str;
 }

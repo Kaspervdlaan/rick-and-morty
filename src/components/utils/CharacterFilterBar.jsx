@@ -74,7 +74,7 @@ export default function CharacterFilterBar({
   return (
     <form
       onSubmit={onApply}
-      className="max-w-[90vw] mb-4 rounded-xl px-3 py-2"
+      className="max-w-[90vw] mb-4 rounded-xl px-3 mx-3"
     >
       <div className="flex flex-wrap items-center gap-2">
         {/* Name (always visible) */}
@@ -170,7 +170,7 @@ function FilterPill({ k, value, onChange, onRemove }) {
   const meta = FILTER_META[k];
 
   return (
-    <div className="flex items-center gap-2 rounded-full border border-gray-200 bg-gray-50 px-2 ">
+    <div className="flex items-center gap-2 rounded-full border border-gray-200 bg-gray-50 px-2 py-1">
       <span className="text-[11px] font-medium text-gray-600">
         {meta.label}
       </span>

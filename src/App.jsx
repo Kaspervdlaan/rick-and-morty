@@ -10,9 +10,9 @@ import LocationDetailPage from "./pages/LocationDetailPage"
 
 const App = () => {
   return (
-    <div className="h-screen bg-green-400">
-      <Header />
-      <Wrapper> 
+    <div className="h-screen flex justify-center bg-gradient-to-t from-green-400 to-green-900">
+      <Wrapper>
+        <Header />
         <Routes>
           <Route path="/" element={<Characters />} />
           <Route path="/episodes" element={<Episodes />} />

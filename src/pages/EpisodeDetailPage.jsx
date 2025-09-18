@@ -1,7 +1,8 @@
+// src/pages/EpisodeDetailPage.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import Loading from '../components/utils/Loading';
-import CharacterCard from '../components/cards/CharacterCard'; // import your card
+import CharacterCard from '../components/cards/CharacterCard';
 import Modal from '../components/models/Modal';
 import CharacterDetails from '../components/models/CharacterDetails';
 
@@ -10,6 +11,7 @@ const EpisodeDetailPage = () => {
   const [episode, setEpisode] = useState(null);
   const [characters, setCharacters] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [charactersLoading, setCharactersLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const [isCharacterModalOpen, setCharacterModalOpen] = useState(false);
@@ -25,27 +27,29 @@ const EpisodeDetailPage = () => {
         setEpisode(data);
 
         // Fetch character data
-        const charIds = data.characters.map(url => url.split('/').pop());
-        const charRes = await fetch(
-          `https://rickandmortyapi.com/api/character/${charIds.join(',')}`
-        );
-        if (!charRes.ok) throw new Error('Failed to fetch characters');
-        const charData = await charRes.json();
-        setCharacters(Array.isArray(charData) ? charData : [charData]);
+        if (data.characters?.length) {
+          setCharactersLoading(true);
+          const charIds = data.characters.map(url => url.split('/').pop());
+          const charRes = await fetch(
+            `https://rickandmortyapi.com/api/character/${charIds.join(',')}`
+          );
+          if (!charRes.ok) throw new Error('Failed to fetch characters');
+          const charData = await charRes.json();
+          setCharacters(Array.isArray(charData) ? charData : [charData]);
+        }
       } catch (err) {
         setError(err.message);
       } finally {
         setLoading(false);
+        setCharactersLoading(false);
       }
     };
     fetchEpisode();
   }, [id]);
 
   const handleCharacterClick = (character) => {
-    // For example, navigate to character detail page if you have routing
     setSelectedCharacter(character);
     setCharacterModalOpen(true);
-    console.log('Clicked character:', character);
   };
 
   if (loading) return <Loading subject="episode details" />;
@@ -54,44 +58,34 @@ const EpisodeDetailPage = () => {
     return <p className="text-red-500 text-center mt-4">Error: {error}</p>;
 
   return (
-    <>  
-      <div className="flex flex-col gap-2 px-6">
-        <div className='flex flex-row gap-4 items-end'>
+    <>
+      <div className="flex flex-col max-w-[90vw] items-start">
+        <div className="flex flex-col gap-2 p-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">{episode.name}</h1>
-
-            <div className="text-gray-700">
-              <span className="font-semibold">ID:</span> {episode.id}
+            <h1 className="text-2xl font-bold text-white">{episode.name}</h1>
+          </div>
+          <div className="flex flex-row gap-4">
+            <div className="text-gray-300">
+              <span className="font-semibold">Air Date:</span> {episode.air_date || 'Unknown'}
             </div>
-            <div className="text-gray-700">
-              <span className="font-semibold">Air Date:</span> {episode.air_date}
-            </div>
-            <div className="text-gray-700">
-              <span className="font-semibold">Episode Code:</span> {episode.episode}
+            <div className="text-gray-300">
+              <span className="font-semibold">Episode Code:</span> {episode.episode || 'Unknown'}
             </div>
           </div>
-          {/* <div>
-            <div className="text-gray-700">
-              <span cla   sName="font-semibold">URL:</span>{' '}
-              <a
-                href={episode.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 underline"
-              >
-                {episode.url}
-              </a>
-            </div>
-            <div className="text-gray-700">
-              <span className="font-semibold">Created:</span>{' '}
-              {new Date(episode.created).toLocaleString()}
-            </div>
-          </div> */}
+
+          <span className="font-semibold">
+            Characters ({charactersLoading ? 'loading…' : characters.length}):
+          </span>
         </div>
 
-        <div className="text-gray-700">
-          <span className="font-semibold">Characters ({characters.length}):</span>
-          <div className="flex flex-wrap gap-2">
+        {charactersLoading ? (
+          <div className="py-4">
+            <Loading subject="characters" />
+          </div>
+        ) : characters.length === 0 ? (
+          <p className="mt-2 text-sm text-gray-500">No known characters.</p>
+        ) : (
+          <div className="flex flex-wrap gap-2 max-h-[60vh] justify-center overflow-y-auto">
             {characters.map(character => (
               <CharacterCard
                 key={character.id}
@@ -100,7 +94,7 @@ const EpisodeDetailPage = () => {
               />
             ))}
           </div>
-        </div>
+        )}
       </div>
 
       <Modal

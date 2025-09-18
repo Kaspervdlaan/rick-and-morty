@@ -74,7 +74,7 @@ const Characters = () => {
   };
 
   return (
-    <>
+    <div className="flex flex-col items-start">
       <CharacterFilterBar
         filterDraft={filterDraft}
         setFilterDraft={setFilterDraft}
@@ -104,7 +104,7 @@ const Characters = () => {
 
       {/* Pagination */}
       {!loading && (
-        <div className="flex justify-center items-center gap-3 mt-4 text-sm">
+        <div className="flex justify-center items-center gap-3 mt-4 ml-6 text-sm">
           <button
             disabled={!pageInfo?.prev}
             onClick={() => setPage((prev) => Math.max(1, prev - 1))}
@@ -132,7 +132,7 @@ const Characters = () => {
       >
         <CharacterDetails character={selectedCharacter} />
       </Modal>
-    </>
+    </div>
   );
 };
 

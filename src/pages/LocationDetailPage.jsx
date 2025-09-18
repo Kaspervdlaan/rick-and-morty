@@ -96,47 +96,26 @@ const LocationDetailPage = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-2 px-6">
-        <div className="flex flex-row gap-4 items-end">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">{location.name}</h1>
+        <div className='flex flex-col max-w-[90vw] items-start'>
+          <div className='flex flex-col gap-2 p-6'>
+            <div>
+              <h1 className="text-2xl font-bold text-white">{location.name}</h1>
+            </div>
+            <div className='flex flex-row gap-4'>
+              <div className="text-gray-300">
+                <span className="font-semibold">Type:</span> {location.type || 'Unknown'}
+              </div>
+            
+              <div className="text-gray-300">
+                <span className="font-semibold">Dimension:</span> {location.dimension || 'Unknown'}
+              </div>
+            </div>
 
-            <div className="text-gray-700">
-              <span className="font-semibold">ID:</span> {location.id}
-            </div>
-            <div className="text-gray-700">
-              <span className="font-semibold">Type:</span> {location.type || 'Unknown'}
-            </div>
-            <div className="text-gray-700">
-              <span className="font-semibold">Dimension:</span> {location.dimension || 'Unknown'}
-            </div>
+              <span className="font-semibold">
+                Residents ({residentsLoading ? 'loading…' : residents.length}):
+              </span>
+
           </div>
-
-          {/* Optional meta block
-          <div>
-            <div className="text-gray-700">
-              <span className="font-semibold">URL:</span>{' '}
-              <a
-                href={location.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 underline"
-              >
-                {location.url}
-              </a>
-            </div>
-            <div className="text-gray-700">
-              <span className="font-semibold">Created:</span>{' '}
-              {new Date(location.created).toLocaleString()}
-            </div>
-          </div>
-          */}
-        </div>
-
-        <div className="text-gray-700">
-          <span className="font-semibold">
-            Residents ({residentsLoading ? 'loading…' : residents.length}):
-          </span>
 
           {residentsLoading ? (
             <div className="py-4">
@@ -145,7 +124,7 @@ const LocationDetailPage = () => {
           ) : residents.length === 0 ? (
             <p className="mt-2 text-sm text-gray-500">No known residents.</p>
           ) : (
-            <div className="flex flex-wrap gap-2 mt-2">
+            <div className="flex flex-wrap gap-2 max-h-[60vh] justify-center overflow-y-auto">
               {residents.map((character) => (
                 <CharacterCard
                   key={character.id}
@@ -156,7 +135,6 @@ const LocationDetailPage = () => {
             </div>
           )}
         </div>
-      </div>
 
       <Modal
         isOpen={isCharacterModalOpen}

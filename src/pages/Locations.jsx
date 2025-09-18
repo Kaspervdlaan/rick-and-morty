@@ -4,7 +4,7 @@ import axios from "axios";
 import LocationCard from "../components/cards/LocationCard";
 import Loading from "../components/utils/Loading";
 import { useNavigate } from "react-router";
-import { LocationFilterBar } from "../components/utils/LocationFilterBar";
+import LocationFilterBar from "../components/utils/LocationFilterBar";
 
 const Locations = () => {
   const [locations, setLocations] = useState([]);
@@ -72,7 +72,7 @@ const Locations = () => {
   const navigate = useNavigate();
 
   return (
-    <>
+    <div className="flex flex-col items-center">
       <LocationFilterBar
         filterDraft={filterDraft}
         setFilterDraft={setFilterDraft}
@@ -126,7 +126,7 @@ const Locations = () => {
           Next
         </button>
       </div>
-    </>
+    </div>
   );
 };
 

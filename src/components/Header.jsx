@@ -5,7 +5,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   return (
-    <header className="w-full bg-green-900 text-white pb-4">
+    <header className="w-full text-white">
       <div className="max-w-6xl mx-auto flex items-center justify-between px-4">
         <img
           onClick={() => navigate("/")}

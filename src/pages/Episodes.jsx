@@ -5,7 +5,7 @@ import EpisodeCard from "../components/cards/EpisodeCard";
 import Loading from "../components/utils/Loading"; // ✅ new import
 
 import { useNavigate } from "react-router";
-import { EpisodeFilterBar } from "../components/utils/EpisodeFilterBar";
+import EpisodeFilterBar  from "../components/utils/EpisodeFilterBar";
 
 const Episodes = () => {
   const [episodes, setEpisodes] = useState([]);
@@ -85,7 +85,7 @@ const Episodes = () => {
   }, [page]);
 
   return (
-    <>
+    <div className="flex flex-col items-center">
       <EpisodeFilterBar
         filterDraft={filterDraft}
         setFilterDraft={setFilterDraft}
@@ -119,7 +119,7 @@ const Episodes = () => {
           Next
         </button>
       </div>
-    </>
+    </div>
   );
 };
 
