@@ -13,7 +13,7 @@ const LocationCard = ({ location, onClick }) => {
   return (
     <div
       onClick={() => onClick(location)}
-      className={`flex items-center h-[110px] px-4 py-1 w-60 ${residentsBg} rounded-xl shadow-md overflow-hidden cursor-pointer hover:shadow-lg hover:scale-[1.02] transition-all duration-100`}
+      className={`flex items-center h-[110px] px-4 py-1 w-80 md:w-60 ${residentsBg} rounded-xl shadow-md overflow-hidden cursor-pointer hover:shadow-lg hover:scale-[1.02] transition-all duration-100`}
     >
       {/* Info */}
       <div className="p-4">

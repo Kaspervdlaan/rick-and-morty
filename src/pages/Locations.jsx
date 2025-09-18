@@ -1,9 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef, useCallback } from "react";
 import axios from "axios";
 
 import LocationCard from "../components/cards/LocationCard";
 import Loading from "../components/utils/Loading";
-import Pagination from "../components/utils/Pagination";
 import { useNavigate } from "react-router";
 import LocationFilterBar from "../components/utils/LocationFilterBar";
 
@@ -33,13 +32,20 @@ const Locations = () => {
     return params.toString();
   }, [page, filters]);
 
+  // Fetch data
   useEffect(() => {
     const fetchLocations = async () => {
       setLoading(true);
       setErrorMsg("");
       try {
         const res = await axios.get(`${API_BASE}?${queryString}`);
-        setLocations(res.data.results || []);
+        if (page === 1) {
+          // Reset when filters change or first load
+          setLocations(res.data.results || []);
+        } else {
+          // Append when scrolling
+          setLocations((prev) => [...prev, ...(res.data.results || [])]);
+        }
         setPageInfo(res.data.info || null);
       } catch (error) {
         if (error?.response?.status === 404) {
@@ -72,6 +78,22 @@ const Locations = () => {
 
   const navigate = useNavigate();
 
+  // IntersectionObserver for infinite scroll
+  const observer = useRef();
+  const lastElementRef = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && pageInfo?.next) {
+          setPage((prev) => prev + 1);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [loading, pageInfo]
+  );
+
   return (
     <div className="flex flex-col items-start">
       <LocationFilterBar
@@ -81,34 +103,41 @@ const Locations = () => {
         onClear={clearFilters}
       />
 
-      {loading ? (
+      {errorMsg && (
+        <div className="flex justify-center mb-4">
+          <div className="text-sm text-gray-700 bg-gray-100 border border-gray-200 rounded px-3 py-2">
+            {errorMsg}
+          </div>
+        </div>
+      )}
+
+      <div className="flex flex-wrap gap-4 justify-center max-h-[80vh] overflow-y-auto w-full">
+        {locations.map((location, index) => {
+          // attach observer to the last card
+          if (index === locations.length - 1) {
+            return (
+              <div ref={lastElementRef} key={location.id}>
+                <LocationCard
+                  location={location}
+                  onClick={() => navigate(`/locations/${location.id}`)}
+                />
+              </div>
+            );
+          }
+          return (
+            <LocationCard
+              key={location.id}
+              location={location}
+              onClick={() => navigate(`/locations/${location.id}`)}
+            />
+          );
+        })}
+      </div>
+
+      {loading && (
         <div className="flex justify-center py-10">
           <Loading />
         </div>
-      ) : (
-        <>
-          {errorMsg && (
-            <div className="flex justify-center mb-4">
-              <div className="text-sm text-gray-700 bg-gray-100 border border-gray-200 rounded px-3 py-2">
-                {errorMsg}
-              </div>
-            </div>
-          )}
-
-          <div className="flex flex-wrap gap-4 justify-center">
-            {locations.map((location) => (
-              <LocationCard
-                key={location.id}
-                location={location}
-                onClick={() => navigate(`/locations/${location.id}`)}
-              />
-            ))}
-          </div>
-        </>
-      )}
-      {/* Pagination */}
-      {!loading && (
-        <Pagination page={page} pageInfo={pageInfo} setPage={setPage} />
       )}
     </div>
   );

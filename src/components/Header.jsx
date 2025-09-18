@@ -1,19 +1,26 @@
-import portal from "../assets/portal.png";
+import portal from "../assets/portal2.png";
 import { useNavigate, NavLink } from "react-router";
+import { useState } from "react";
+import { HiMenu, HiX } from "react-icons/hi";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Header = () => {
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <header className="w-full text-white">
-      <div className="max-w-6xl mx-auto flex items-center justify-between px-4">
+      <div className="max-w-6xl mx-auto flex items-center justify-between md:px-4 md:py-3">
+        {/* Logo */}
         <img
           onClick={() => navigate("/")}
           src={portal}
           alt="Portal"
-          className="w-22 h-22 cursor-pointer"
+          className="h-16 cursor-pointer"
         />
-        <nav>
+
+        {/* Desktop Nav */}
+        <nav className="hidden md:block">
           <ul className="flex space-x-6">
             <li>
               <NavLink
@@ -54,7 +61,83 @@ const Header = () => {
             </li>
           </ul>
         </nav>
+
+        {/* Hamburger button (only mobile) */}
+        <button
+          className="md:hidden text-3xl focus:outline-none"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          {menuOpen ? <HiX /> : <HiMenu />}
+        </button>
       </div>
+
+      {/* Mobile Slide-in Menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <>
+            {/* Overlay */}
+            <motion.div
+              className="fixed inset-0 bg-black/50 z-40"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMenuOpen(false)}
+            />
+
+            {/* Sidebar */}
+            <motion.nav
+              className="fixed top-0 right-0 h-full w-64 bg-[#2ECC71] bg-opacity-95 z-50 shadow-lg"
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", stiffness: 260, damping: 30 }}
+            >
+              <ul className="flex flex-col items-start space-y-6 p-6 text-lg">
+                <li>
+                  <NavLink
+                    to="/"
+                    end
+                    onClick={() => setMenuOpen(false)}
+                    className={({ isActive }) =>
+                      `block transition-colors duration-200 ${
+                        isActive ? "text-gray-800" : "hover:text-gray-800"
+                      }`
+                    }
+                  >
+                    Characters
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/episodes"
+                    onClick={() => setMenuOpen(false)}
+                    className={({ isActive }) =>
+                      `block transition-colors duration-200 ${
+                        isActive ? "text-gray-800" : "hover:text-gray-800"
+                      }`
+                    }
+                  >
+                    Episodes
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/locations"
+                    onClick={() => setMenuOpen(false)}
+                    className={({ isActive }) =>
+                      `block transition-colors duration-200 ${
+                        isActive ? "text-gray-800" : "hover:text-gray-800"
+                      }`
+                    }
+                  >
+                    Locations
+                  </NavLink>
+                </li>
+              </ul>
+            </motion.nav>
+          </>
+        )}
+      </AnimatePresence>
     </header>
   );
 };

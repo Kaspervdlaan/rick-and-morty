@@ -47,7 +47,7 @@ export default function EpisodeFilterBar({
   return (
     <form
       onSubmit={onApply}
-      className="max-w-[90vw] mb-4 rounded-xl px-3 mx-3"
+      className="max-w-[90vw] mb-4 rounded-xl md:px-3 md:mx-3"
     >
       <div className="flex flex-wrap items-center gap-2">
         {/* Name (always visible) */}
@@ -115,7 +115,7 @@ export default function EpisodeFilterBar({
         </div>
 
         {/* Actions */}
-        <div className="ml-auto flex items-center gap-2">
+        <div className="flex items-center justify-start gap-2">
           <button
             type="submit"
             className={btn + " bg-indigo-600 text-white hover:bg-indigo-700"}
