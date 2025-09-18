@@ -2,15 +2,21 @@ import { useEffect, useState, useMemo } from "react";
 import axios from "axios";
 
 import EpisodeCard from "../components/cards/EpisodeCard";
-import Loading from "../components/utils/Loading"; // ✅ new import
+import Loading from "../components/utils/Loading";
 import Pagination from "../components/utils/Pagination";
+import FilterBar from "../components/utils/FilterBar";
 
 import { useNavigate } from "react-router";
-import EpisodeFilterBar  from "../components/utils/EpisodeFilterBar";
+
+const EPISODE_FILTER_META = {
+  episode: { label: "Episode Code", type: "text" },
+};
+
+const ITEMS_PER_PAGE = 10; // ✅ only show 10 per page
 
 const Episodes = () => {
   const [episodes, setEpisodes] = useState([]);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(1); // frontend page
   const [pageInfo, setPageInfo] = useState(null);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
@@ -22,24 +28,26 @@ const Episodes = () => {
     episode: "",
   });
 
-  const [filterDraft, setFilterDraft] = useState(filters); 
-  
+  const [filterDraft, setFilterDraft] = useState(filters);
+
   const queryString = useMemo(() => {
     const params = new URLSearchParams();
-    params.set("page", String(page));
+    // important: backend still uses API pagination
+    params.set("page", String(Math.ceil(page / 2))); // ✅ fetch every 20, use frontend slice
     Object.entries(filters).forEach(([key, value]) => {
       if (value) params.set(key, value);
     });
     return params.toString();
   }, [page, filters]);
 
-    useEffect(() => {
+  useEffect(() => {
     const fetchEpisodes = async () => {
       setLoading(true);
       setErrorMsg("");
       try {
         const response = await axios.get(`${API_BASE}?${queryString}`);
         setEpisodes(response.data.results);
+        setPageInfo(response.data.info);
       } catch (error) {
         if (error?.response?.status === 404) {
           setEpisodes([]);
@@ -59,7 +67,7 @@ const Episodes = () => {
   const applyFilters = (e) => {
     e?.preventDefault?.();
     setFilters(filterDraft);
-    setPage(1); // Reset to first page when applying new filters
+    setPage(1);
   };
 
   const clearFilters = () => {
@@ -70,39 +78,43 @@ const Episodes = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchEpisodes = async () => {
-      try {
-        const response = await axios.get(
-          `https://rickandmortyapi.com/api/episode?page=${page}`
-        );
-        setEpisodes(response.data.results);
-        setPageInfo(response.data.info);
-      } catch (error) {
-        console.error("Error fetching episodes:", error);
-      }
-    };
-    fetchEpisodes();
-  }, [page]);
+  // ✅ Slice 10 episodes per page
+  const startIndex = (page % 2 === 0 ? 10 : 0);
+  const pagedEpisodes = episodes.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   return (
-    <div className="flex flex-col items-start">
-      <EpisodeFilterBar
+    <div className="flex flex-col items-start h-[100dvh]">
+      <FilterBar
+        filterMeta={EPISODE_FILTER_META}
         filterDraft={filterDraft}
         setFilterDraft={setFilterDraft}
         onApply={applyFilters}
         onClear={clearFilters}
+        mainField={{ key: "name", placeholder: "e.g. Pilot" }}
       />
 
-      <div className="flex flex-wrap gap-4 justify-center">
-        {episodes.map((episode) => (
-          <EpisodeCard key={episode.id} episode={episode} onClick={() => {navigate(`/episodes/${episode.id}`)}} />
-        ))}
-      </div>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className="flex flex-wrap gap-4 justify-center max-h-[65dvh] overflow-y-auto w-full">
+          {pagedEpisodes.map((episode) => (
+            <EpisodeCard
+              key={episode.id}
+              episode={episode}
+              onClick={() => navigate(`/episodes/${episode.id}`)}
+            />
+          ))}
+        </div>
+      )}
 
-      {/* Pagination controls */}
       {!loading && (
-        <Pagination page={page} pageInfo={pageInfo} setPage={setPage} />
+        <Pagination
+          page={page}
+          pageInfo={{
+            pages: pageInfo ? pageInfo.pages * 2 : 0, // ✅ double the number of frontend pages
+          }}
+          setPage={setPage}
+        />
       )}
     </div>
   );

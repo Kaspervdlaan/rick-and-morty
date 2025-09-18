@@ -45,6 +45,8 @@ const CharacterDetails = ({ character }) => {
         </div>
       </div>
 
+      <div className="border-b border-green-200"></div>
+
       {/* Body info */}
       <div className="px-6 pb-6 space-y-1">
         <div>

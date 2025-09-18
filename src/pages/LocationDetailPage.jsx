@@ -96,7 +96,7 @@ const LocationDetailPage = () => {
 
   return (
     <>
-        <div className='flex flex-col max-w-[90vw] items-start'>
+        <div className='flex flex-col max-w-[90vw] w-full items-start'>
           <div className='flex flex-col gap-2 px-6 pb-3'>
             <div>
               <h1 className="text-2xl font-bold text-white">{location.name}</h1>

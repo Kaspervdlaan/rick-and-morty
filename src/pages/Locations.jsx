@@ -1,10 +1,14 @@
 import { useEffect, useMemo, useState, useRef, useCallback } from "react";
+import { useNavigate } from "react-router";
 import axios from "axios";
-
 import LocationCard from "../components/cards/LocationCard";
 import Loading from "../components/utils/Loading";
-import { useNavigate } from "react-router";
-import LocationFilterBar from "../components/utils/LocationFilterBar";
+import FilterBar from "../components/utils/FilterBar";
+
+const LOCATION_FILTER_META = {
+  type: { label: "Type", type: "text" },
+  dimension: { label: "Dimension", type: "text" },
+};
 
 const Locations = () => {
   const [locations, setLocations] = useState([]);
@@ -32,7 +36,6 @@ const Locations = () => {
     return params.toString();
   }, [page, filters]);
 
-  // Fetch data
   useEffect(() => {
     const fetchLocations = async () => {
       setLoading(true);
@@ -96,11 +99,13 @@ const Locations = () => {
 
   return (
     <div className="flex flex-col items-start">
-      <LocationFilterBar
+      <FilterBar
+        filterMeta={LOCATION_FILTER_META}
         filterDraft={filterDraft}
         setFilterDraft={setFilterDraft}
         onApply={applyFilters}
         onClear={clearFilters}
+        mainField={{ key: "name", placeholder: "e.g. Earth" }}
       />
 
       {errorMsg && (
@@ -111,7 +116,7 @@ const Locations = () => {
         </div>
       )}
 
-      <div className="flex flex-wrap gap-4 justify-center max-h-[80vh] overflow-y-auto w-full">
+      <div className="flex flex-wrap gap-4 justify-center max-h-[75vh] overflow-y-auto w-full">
         {locations.map((location, index) => {
           // attach observer to the last card
           if (index === locations.length - 1) {

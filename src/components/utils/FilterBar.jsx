@@ -1,26 +1,24 @@
-// LocationFilterBarCompact.jsx
 import { useEffect, useMemo, useRef, useState } from "react";
 
-const input = "h-8 px-2 text-xs border border-gray-300 rounded-md bg-white";
+const input =
+  "h-8 px-2 text-xs border border-gray-300 rounded-md bg-white";
 const btn = "h-8 px-3 text-xs rounded-md transition";
-const iconBtn = "h-6 w-6 inline-flex items-center justify-center rounded hover:bg-gray-100";
+const iconBtn =
+  "h-6 w-6 inline-flex items-center justify-center rounded hover:bg-gray-100";
 
-const LOCATION_FILTER_META = {
-  type: { label: "Type", type: "text" },
-  dimension: { label: "Dimension", type: "text" },
-};
-
-export default function LocationFilterBar({
+export default function FilterBar({
+  filterMeta,
   filterDraft,
   setFilterDraft,
   onApply,
   onClear,
+  mainField, // { key: "name", placeholder: "e.g. Rick" }
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeKeys, setActiveKeys] = useState([]);
   const menuRef = useRef(null);
 
-  // Close menu on outside click
+  // close menu on outside click
   useEffect(() => {
     function handler(e) {
       if (!menuRef.current) return;
@@ -31,8 +29,8 @@ export default function LocationFilterBar({
   }, []);
 
   const availableKeys = useMemo(() => {
-    return Object.keys(LOCATION_FILTER_META).filter((k) => !activeKeys.includes(k));
-  }, [activeKeys]);
+    return Object.keys(filterMeta).filter((k) => !activeKeys.includes(k));
+  }, [activeKeys, filterMeta]);
 
   function addFilter(k) {
     setActiveKeys((keys) => [...keys, k]);
@@ -50,24 +48,31 @@ export default function LocationFilterBar({
       className="max-w-[90vw] mb-4 rounded-xl md:px-3 md:mx-3"
     >
       <div className="flex flex-wrap items-center gap-2">
-        {/* Name (always visible) */}
-        <div className="flex items-center gap-2">
-          <input
-            className={input + " w-[180px] sm:w-[220px]"}
-            placeholder="e.g. Earth"
-            value={filterDraft.name}
-            onChange={(e) =>
-              setFilterDraft((f) => ({ ...f, name: e.target.value }))
-            }
-          />
-        </div>
+        {/* Always visible main field */}
+        {mainField && (
+          <div className="flex items-center gap-2">
+            <input
+              className={input + " w-[180px] sm:w-[220px]"}
+              placeholder={mainField.placeholder}
+              value={filterDraft[mainField.key] || ""}
+              onChange={(e) =>
+                setFilterDraft((f) => ({
+                  ...f,
+                  [mainField.key]: e.target.value,
+                }))
+              }
+            />
+          </div>
+        )}
 
-        {/* Add Filters */}
+        {/* Add Filters menu */}
         <div className="relative" ref={menuRef}>
           <button
             type="button"
             onClick={() => setMenuOpen((v) => !v)}
-            className={btn + " border border-gray-300 bg-white hover:bg-gray-50"}
+            className={
+              btn + " border border-gray-300 bg-white hover:bg-gray-50"
+            }
             aria-haspopup="menu"
             aria-expanded={menuOpen}
           >
@@ -87,7 +92,7 @@ export default function LocationFilterBar({
                     className="w-full text-left px-2 py-1 text-xs rounded hover:bg-gray-100"
                     role="menuitem"
                   >
-                    {LOCATION_FILTER_META[k].label}
+                    {filterMeta[k].label}
                   </button>
                 ))
               ) : (
@@ -100,17 +105,17 @@ export default function LocationFilterBar({
         </div>
 
         {/* Active filter pills */}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex gap-2 overflow-x-auto whitespace-nowrap max-w-full py-1">
           {activeKeys.map((k) => (
-            <LocationFilterPill
-              key={k}
-              k={k}
-              value={filterDraft[k]}
-              onChange={(val) =>
-                setFilterDraft((f) => ({ ...f, [k]: val }))
-              }
-              onRemove={() => removeFilter(k)}
-            />
+            <div key={k} className="shrink-0">
+              <FilterPill
+                k={k}
+                meta={filterMeta[k]}
+                value={filterDraft[k]}
+                onChange={(val) => setFilterDraft((f) => ({ ...f, [k]: val }))}
+                onRemove={() => removeFilter(k)}
+              />
+            </div>
           ))}
         </div>
 
@@ -128,7 +133,9 @@ export default function LocationFilterBar({
               onClear();
               setActiveKeys([]);
             }}
-            className={btn + " border border-gray-300 bg-white hover:bg-gray-50"}
+            className={
+              btn + " border border-gray-300 bg-white hover:bg-gray-50"
+            }
           >
             Clear
           </button>
@@ -138,14 +145,26 @@ export default function LocationFilterBar({
   );
 }
 
-function LocationFilterPill({ k, value, onChange, onRemove }) {
-  const meta = LOCATION_FILTER_META[k];
-
+function FilterPill({ k, meta, value, onChange, onRemove }) {
   return (
-    <div className="flex items-center gap-2 rounded-md border border-gray-200 bg-gray-50 px-2 ">
+    <div className="flex items-center gap-2 rounded-md border border-gray-200 bg-gray-50 px-2">
       <span className="text-[11px] font-medium text-gray-600">
         {meta.label}
       </span>
+
+      {meta.type === "select" && (
+        <select
+          className={input + " h-6 text-[11px] px-1"}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+        >
+          {meta.options.map((opt) => (
+            <option key={opt} value={opt}>
+              {opt || "Any"}
+            </option>
+          ))}
+        </select>
+      )}
 
       {meta.type === "text" && (
         <input

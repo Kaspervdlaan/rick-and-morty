@@ -5,9 +5,16 @@ import CharacterDetails from "../components/models/CharacterDetails";
 import CharacterCard from "../components/cards/CharacterCard";
 import Loading from "../components/utils/Loading";
 import Pagination from "../components/utils/Pagination";
-import CharacterFilterBar from "../components/utils/CharacterFilterBar";
+import FilterBar from "../components/utils/FilterBar";
 
 const API_BASE = "https://rickandmortyapi.com/api/character/";
+
+const CHARACTER_FILTER_META = {
+  status: { label: "Status", type: "select", options: ["", "alive", "dead", "unknown"] },
+  species: { label: "Species", type: "select", options: ["", "Human", "Alien", "Robot"] },
+  type: { label: "Type", type: "select", options: ["", "Parasite", "Superhuman"] },
+  gender: { label: "Gender", type: "select", options: ["", "female", "male", "unknown"] },
+};
 
 const Characters = () => {
   const [characters, setCharacters] = useState([]);
@@ -76,15 +83,17 @@ const Characters = () => {
 
   return (
     <div className="flex flex-col items-start">
-      <CharacterFilterBar
+      <FilterBar 
+        filterMeta={CHARACTER_FILTER_META}
         filterDraft={filterDraft}
         setFilterDraft={setFilterDraft}
         onApply={applyFilters}
         onClear={clearFilters}
+        mainField={{ key: "name", placeholder: "e.g. Rick" }}
       />
 
       {/* Character grid */}
-      <div className="flex flex-wrap gap-4 justify-center min-h-[200px]">
+      <div className="flex flex-wrap gap-4 justify-center max-h-[65dvh] overflow-y-auto w-full">
         {loading ? (
           <Loading subject="characters" />
         ) : errorMsg ? (
