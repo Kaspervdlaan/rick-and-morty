@@ -10,7 +10,7 @@ import LocationDetailPage from "./pages/LocationDetailPage"
 
 const App = () => {
   return (
-    <div className="h-screen flex justify-center bg-gradient-to-t from-green-400 to-green-900">
+    <div className="h-screen flex justify-center bg-gradient-to-t from-[#2ECC71] to-[#40C4FF]">
       <Wrapper>
         <Header />
         <Routes>

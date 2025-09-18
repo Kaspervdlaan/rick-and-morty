@@ -9,7 +9,7 @@ const Pagination = ({ page, pageInfo, setPage }) => {
         Prev
       </button>
 
-      <span>
+      <span className="text-gray-800">
         Page {page} of {pageInfo?.pages ?? "?"}
       </span>
 

@@ -21,7 +21,7 @@ const Header = () => {
                 end
                 className={({ isActive }) =>
                   `transition-colors duration-200 ${
-                    isActive ? "text-green-400 font-bold" : "hover:text-green-400"
+                    isActive ? "text-gray-800" : "hover:text-gray-800"
                   }`
                 }
               >
@@ -33,7 +33,7 @@ const Header = () => {
                 to="/episodes"
                 className={({ isActive }) =>
                   `transition-colors duration-200 ${
-                    isActive ? "text-green-400 font-bold" : "hover:text-green-400"
+                    isActive ? "text-gray-800" : "hover:text-gray-800"
                   }`
                 }
               >
@@ -45,7 +45,7 @@ const Header = () => {
                 to="/locations"
                 className={({ isActive }) =>
                   `transition-colors duration-200 ${
-                    isActive ? "text-green-400 font-bold" : "hover:text-green-400"
+                    isActive ? "text-gray-800" : "hover:text-gray-800"
                   }`
                 }
               >

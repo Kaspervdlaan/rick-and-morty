@@ -111,7 +111,7 @@ const LocationDetailPage = () => {
               </div>
             </div>
 
-              <span className="font-semibold">
+              <span className="font-semibold text-white">
                 Residents ({residentsLoading ? 'loading…' : residents.length}):
               </span>
 

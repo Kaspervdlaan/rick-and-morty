@@ -60,7 +60,7 @@ const Locations = () => {
   const applyFilters = (e) => {
     e?.preventDefault?.();
     setFilters(filterDraft);
-    setPage(1); // reset to first page on new filters
+    setPage(1);
   };
 
   const clearFilters = () => {
@@ -106,9 +106,10 @@ const Locations = () => {
           </div>
         </>
       )}
-
-      {/* Pagination controls */}
-      <Pagination page={page} pageInfo={pageInfo} setPage={setPage} />
+      {/* Pagination */}
+      {!loading && (
+        <Pagination page={page} pageInfo={pageInfo} setPage={setPage} />
+      )}
     </div>
   );
 };

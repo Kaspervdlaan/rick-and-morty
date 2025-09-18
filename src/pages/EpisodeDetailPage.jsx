@@ -73,7 +73,7 @@ const EpisodeDetailPage = () => {
             </div>
           </div>
 
-          <span className="font-semibold">
+          <span className="font-semibold text-white">
             Characters ({charactersLoading ? 'loading…' : characters.length}):
           </span>
         </div>
