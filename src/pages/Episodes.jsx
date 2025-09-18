@@ -3,6 +3,7 @@ import axios from "axios";
 
 import EpisodeCard from "../components/cards/EpisodeCard";
 import Loading from "../components/utils/Loading"; // ✅ new import
+import Pagination from "../components/utils/Pagination";
 
 import { useNavigate } from "react-router";
 import EpisodeFilterBar  from "../components/utils/EpisodeFilterBar";
@@ -85,7 +86,7 @@ const Episodes = () => {
   }, [page]);
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-start">
       <EpisodeFilterBar
         filterDraft={filterDraft}
         setFilterDraft={setFilterDraft}
@@ -100,25 +101,9 @@ const Episodes = () => {
       </div>
 
       {/* Pagination controls */}
-      <div className="flex justify-center gap-4 mt-6">
-        <button
-          disabled={!pageInfo?.prev}
-          onClick={() => setPage((prev) => prev - 1)}
-          className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
-        >
-          Prev
-        </button>
-        <span>
-          Page {page} of {pageInfo?.pages || "?"}
-        </span>
-        <button
-          disabled={!pageInfo?.next}
-          onClick={() => setPage((prev) => prev + 1)}
-          className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
-        >
-          Next
-        </button>
-      </div>
+      {!loading && (
+        <Pagination page={page} pageInfo={pageInfo} setPage={setPage} />
+      )}
     </div>
   );
 };

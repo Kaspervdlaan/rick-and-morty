@@ -3,6 +3,7 @@ import axios from "axios";
 
 import LocationCard from "../components/cards/LocationCard";
 import Loading from "../components/utils/Loading";
+import Pagination from "../components/utils/Pagination";
 import { useNavigate } from "react-router";
 import LocationFilterBar from "../components/utils/LocationFilterBar";
 
@@ -72,7 +73,7 @@ const Locations = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-start">
       <LocationFilterBar
         filterDraft={filterDraft}
         setFilterDraft={setFilterDraft}
@@ -107,25 +108,7 @@ const Locations = () => {
       )}
 
       {/* Pagination controls */}
-      <div className="flex justify-center gap-4 mt-6">
-        <button
-          disabled={!pageInfo?.prev || loading}
-          onClick={() => setPage((prev) => prev - 1)}
-          className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
-        >
-          Prev
-        </button>
-        <span>
-          Page {page} of {pageInfo?.pages ?? (locations.length ? 1 : 0)}
-        </span>
-        <button
-          disabled={!pageInfo?.next || loading}
-          onClick={() => setPage((prev) => prev + 1)}
-          className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
-        >
-          Next
-        </button>
-      </div>
+      <Pagination page={page} pageInfo={pageInfo} setPage={setPage} />
     </div>
   );
 };
