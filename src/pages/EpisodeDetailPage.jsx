@@ -60,16 +60,16 @@ const EpisodeDetailPage = () => {
   return (
     <>
       <div className="flex flex-col max-w-[90vw] items-start">
-        <div className="flex flex-col gap-2 p-6">
+        <div className="flex flex-col gap-2 px-6 pb-3">
           <div>
             <h1 className="text-2xl font-bold text-white">{episode.name}</h1>
           </div>
-          <div className="flex flex-row gap-4">
-            <div className="text-gray-300">
+          <div className="flex flex-col">
+            <div className="text-gray-200 text-sm">
               <span className="font-semibold">Air Date:</span> {episode.air_date || 'Unknown'}
             </div>
-            <div className="text-gray-300">
-              <span className="font-semibold">Episode Code:</span> {episode.episode || 'Unknown'}
+            <div className="text-gray-200">
+              <span className="font-semibold text-sm">Episode Code:</span> {episode.episode || 'Unknown'}
             </div>
           </div>
 
