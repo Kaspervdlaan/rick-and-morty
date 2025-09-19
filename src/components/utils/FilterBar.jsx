@@ -80,7 +80,7 @@ export default function FilterBar({
 
           <button
             type="submit"
-            className={btn + " bg-indigo-600 text-white hover:bg-indigo-700"}
+            className={btn + " bg-blue-light text-white hover:bg-blue-light"}
           >
             Apply
           </button>

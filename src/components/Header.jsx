@@ -1,4 +1,3 @@
-import portal from "../assets/portal2.png";
 import logo from "../assets/logoo.png";
 import { useNavigate, NavLink } from "react-router";
 import { useState } from "react";
@@ -29,7 +28,7 @@ const Header = () => {
                 end
                 className={({ isActive }) =>
                   `transition-colors duration-200 ${
-                    isActive ? "text-gray-800" : "hover:text-gray-800"
+                    isActive ? "text-[#80c044]" : "hover:text-[#2f8741]"
                   }`
                 }
               >
@@ -41,7 +40,7 @@ const Header = () => {
                 to="/episodes"
                 className={({ isActive }) =>
                   `transition-colors duration-200 ${
-                    isActive ? "text-gray-800" : "hover:text-gray-800"
+                    isActive ? "text-[#80c044]" : "hover:text-[#2f8741]"
                   }`
                 }
               >
@@ -53,7 +52,7 @@ const Header = () => {
                 to="/locations"
                 className={({ isActive }) =>
                   `transition-colors duration-200 ${
-                    isActive ? "text-gray-800" : "hover:text-gray-800"
+                    isActive ? "text-[#80c044]" : "hover:text-[#2f8741]"
                   }`
                 }
               >
