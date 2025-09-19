@@ -1,5 +1,5 @@
 const Wrapper = ({ children }) => (
-  <div className="flex flex-col w-[90vw] items-center gap-2 md:px-2 pb-4">
+  <div className="flex flex-col w-[90vw] h-full items-center gap-2 md:px-2 pb-4">
     {children}
   </div>
 );

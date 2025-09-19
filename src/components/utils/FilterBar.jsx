@@ -1,10 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import FilterChip from "./FilterChip";
 
 const input =
   "h-8 px-2 text-xs border border-gray-300 rounded-md bg-white";
 const btn = "h-8 px-3 text-xs rounded-md transition";
-const iconBtn =
-  "h-6 w-6 inline-flex items-center justify-center rounded hover:bg-gray-100";
 
 export default function FilterBar({
   filterMeta,
@@ -12,7 +11,7 @@ export default function FilterBar({
   setFilterDraft,
   onApply,
   onClear,
-  mainField, // { key: "name", placeholder: "e.g. Rick" }
+  mainField,
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeKeys, setActiveKeys] = useState([]);
@@ -45,14 +44,14 @@ export default function FilterBar({
   return (
     <form
       onSubmit={onApply}
-      className="max-w-[90vw] mb-4 rounded-xl md:px-3 md:mx-3"
+      className="max-w-[90vw] h-auto mb-4 rounded-xl md:px-3 md:mx-3"
     >
       <div className="flex flex-wrap items-center gap-2">
         {/* Always visible main field */}
         {mainField && (
           <div className="flex items-center gap-2">
             <input
-              className={input + " w-[180px] sm:w-[220px]"}
+              className={input + " w-[120px] sm:w-[180px]"}
               placeholder={mainField.placeholder}
               value={filterDraft[mainField.key] || ""}
               onChange={(e) =>
@@ -65,8 +64,8 @@ export default function FilterBar({
           </div>
         )}
 
-        {/* Add Filters menu */}
-        <div className="relative" ref={menuRef}>
+        {/* Filters + + Apply + Clear */}
+        <div className="relative flex items-center gap-2" ref={menuRef}>
           <button
             type="button"
             onClick={() => setMenuOpen((v) => !v)}
@@ -76,8 +75,28 @@ export default function FilterBar({
             aria-haspopup="menu"
             aria-expanded={menuOpen}
           >
-            Filters +
+            Filter +
           </button>
+
+          <button
+            type="submit"
+            className={btn + " bg-indigo-600 text-white hover:bg-indigo-700"}
+          >
+            Apply
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              onClear();
+              setActiveKeys([]);
+            }}
+            className={
+              btn + " border border-gray-300 bg-white hover:bg-gray-50"
+            }
+          >
+            Clear
+          </button>
+
           {menuOpen && (
             <div
               role="menu"
@@ -104,86 +123,23 @@ export default function FilterBar({
           )}
         </div>
 
-        {/* Active filter pills */}
+        {/* Active filter chips */}
         <div className="flex gap-2 overflow-x-auto whitespace-nowrap max-w-full py-1">
           {activeKeys.map((k) => (
             <div key={k} className="shrink-0">
-              <FilterPill
+              <FilterChip
                 k={k}
                 meta={filterMeta[k]}
                 value={filterDraft[k]}
-                onChange={(val) => setFilterDraft((f) => ({ ...f, [k]: val }))}
+                onChange={(val) =>
+                  setFilterDraft((f) => ({ ...f, [k]: val }))
+                }
                 onRemove={() => removeFilter(k)}
               />
             </div>
           ))}
         </div>
-
-        {/* Actions */}
-        <div className="flex items-center justify-start gap-2">
-          <button
-            type="submit"
-            className={btn + " bg-indigo-600 text-white hover:bg-indigo-700"}
-          >
-            Apply
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              onClear();
-              setActiveKeys([]);
-            }}
-            className={
-              btn + " border border-gray-300 bg-white hover:bg-gray-50"
-            }
-          >
-            Clear
-          </button>
-        </div>
       </div>
     </form>
-  );
-}
-
-function FilterPill({ k, meta, value, onChange, onRemove }) {
-  return (
-    <div className="flex items-center gap-2 rounded-md border border-gray-200 bg-gray-50 px-2">
-      <span className="text-[11px] font-medium text-gray-600">
-        {meta.label}
-      </span>
-
-      {meta.type === "select" && (
-        <select
-          className={input + " h-6 text-[11px] px-1"}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-        >
-          {meta.options.map((opt) => (
-            <option key={opt} value={opt}>
-              {opt || "Any"}
-            </option>
-          ))}
-        </select>
-      )}
-
-      {meta.type === "text" && (
-        <input
-          className={input + " h-6 text-[11px] px-1 w-28"}
-          placeholder={`Enter ${meta.label}`}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-        />
-      )}
-
-      <button
-        type="button"
-        onClick={onRemove}
-        aria-label={`Remove ${meta.label}`}
-        className={iconBtn}
-        title="Remove"
-      >
-        ×
-      </button>
-    </div>
   );
 }

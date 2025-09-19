@@ -1,4 +1,5 @@
 import portal from "../assets/portal2.png";
+import logo from "../assets/logoo.png";
 import { useNavigate, NavLink } from "react-router";
 import { useState } from "react";
 import { HiMenu, HiX } from "react-icons/hi";
@@ -10,11 +11,11 @@ const Header = () => {
 
   return (
     <header className="w-full text-white">
-      <div className="max-w-6xl mx-auto flex items-center justify-between md:px-4 md:py-3">
+      <div className="max-w-6xl mx-auto flex items-center justify-between md:px-4 py-3">
         {/* Logo */}
         <img
           onClick={() => navigate("/")}
-          src={portal}
+          src={logo}
           alt="Portal"
           className="h-16 cursor-pointer"
         />

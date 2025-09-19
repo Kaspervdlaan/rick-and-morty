@@ -82,7 +82,8 @@ const Characters = () => {
   };
 
   return (
-    <div className="flex flex-col items-start">
+    <div className="flex flex-col items-start h-[calc(100dvh-120px)]">
+      {/* 72px */}
       <FilterBar 
         filterMeta={CHARACTER_FILTER_META}
         filterDraft={filterDraft}
@@ -93,7 +94,7 @@ const Characters = () => {
       />
 
       {/* Character grid */}
-      <div className="flex flex-wrap gap-4 justify-center max-h-[65dvh] overflow-y-auto w-full">
+      <div className="flex flex-wrap gap-4 max-h-[80%] justify-center w-full overflow-y-auto">
         {loading ? (
           <Loading subject="characters" />
         ) : errorMsg ? (
@@ -112,7 +113,7 @@ const Characters = () => {
         )}
       </div>
 
-      {/* Pagination */}
+      {/* Pagination 32px*/}
       {!loading && (
         <Pagination page={page} pageInfo={pageInfo} setPage={setPage} />
       )}

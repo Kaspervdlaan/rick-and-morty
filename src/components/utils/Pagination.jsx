@@ -28,7 +28,7 @@ const Pagination = ({ page, pageInfo, setPage }) => {
   const pages = getPageNumbers();
 
   return (
-    <div className="flex justify-center items-center gap-2 mt-4 ml-2 md:ml-6 text-sm">
+    <div className="flex h-8 justify-center items-center gap-2 mt-4 ml-2 md:ml-6 text-sm">
       {/* Prev button */}
       <button
         disabled={page <= 1}
@@ -46,12 +46,12 @@ const Pagination = ({ page, pageInfo, setPage }) => {
           </span>
         ) : (
           <button
-            key={p}
+            key={idx}
             onClick={() => setPage(p)}
-            className={`h-9 px-3 rounded-md border ${
+            className={`h-9 px-3 rounded-md cursor-pointer ${
               p === page
-                ? "bg-blue-500 text-white border-blue-500"
-                : "bg-white hover:bg-gray-100 border-gray-300"
+                ? "bg-indigo-600 text-white"
+                : "bg-white hover:bg-indigo-600 hover:text-white"
             }`}
           >
             {p}

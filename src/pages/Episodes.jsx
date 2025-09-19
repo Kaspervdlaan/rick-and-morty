@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from "react";
 import axios from "axios";
 
 import EpisodeCard from "../components/cards/EpisodeCard";
-import Loading from "../components/utils/Loading";
+import Loading from "../components/utils/Loading"; // ✅ new import
 import Pagination from "../components/utils/Pagination";
 import FilterBar from "../components/utils/FilterBar";
 
@@ -15,39 +15,42 @@ const EPISODE_FILTER_META = {
 const ITEMS_PER_PAGE = 10; // ✅ only show 10 per page
 
 const Episodes = () => {
+  const navigate = useNavigate();
+
   const [episodes, setEpisodes] = useState([]);
-  const [page, setPage] = useState(1); // frontend page
+  const [page, setPage] = useState(1);
   const [pageInfo, setPageInfo] = useState(null);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
   const API_BASE = "https://rickandmortyapi.com/api/episode/";
 
+  const startIndex = (page % 2 === 0 ? 10 : 0);
+  const pagedEpisodes = episodes.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
   const [filters, setFilters] = useState({
     name: "",
     episode: "",
   });
 
-  const [filterDraft, setFilterDraft] = useState(filters);
-
+  const [filterDraft, setFilterDraft] = useState(filters); 
+  
   const queryString = useMemo(() => {
     const params = new URLSearchParams();
-    // important: backend still uses API pagination
-    params.set("page", String(Math.ceil(page / 2))); // ✅ fetch every 20, use frontend slice
+    params.set("page", String(page));
     Object.entries(filters).forEach(([key, value]) => {
       if (value) params.set(key, value);
     });
     return params.toString();
   }, [page, filters]);
 
-  useEffect(() => {
+    useEffect(() => {
     const fetchEpisodes = async () => {
       setLoading(true);
       setErrorMsg("");
       try {
         const response = await axios.get(`${API_BASE}?${queryString}`);
         setEpisodes(response.data.results);
-        setPageInfo(response.data.info);
       } catch (error) {
         if (error?.response?.status === 404) {
           setEpisodes([]);
@@ -76,14 +79,24 @@ const Episodes = () => {
     setPage(1);
   };
 
-  const navigate = useNavigate();
 
-  // ✅ Slice 10 episodes per page
-  const startIndex = (page % 2 === 0 ? 10 : 0);
-  const pagedEpisodes = episodes.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  useEffect(() => {
+    const fetchEpisodes = async () => {
+      try {
+        const response = await axios.get(
+          `https://rickandmortyapi.com/api/episode?page=${page}`
+        );
+        setEpisodes(response.data.results);
+        setPageInfo(response.data.info);
+      } catch (error) {
+        console.error("Error fetching episodes:", error);
+      }
+    };
+    fetchEpisodes();
+  }, [page]);
 
   return (
-    <div className="flex flex-col items-start h-[100dvh]">
+    <div className="flex flex-col items-start h-[calc(100dvh-120px)]">
       <FilterBar
         filterMeta={EPISODE_FILTER_META}
         filterDraft={filterDraft}
@@ -93,28 +106,14 @@ const Episodes = () => {
         mainField={{ key: "name", placeholder: "e.g. Pilot" }}
       />
 
-      {loading ? (
-        <Loading />
-      ) : (
-        <div className="flex flex-wrap gap-4 justify-center max-h-[65dvh] overflow-y-auto w-full">
-          {pagedEpisodes.map((episode) => (
-            <EpisodeCard
-              key={episode.id}
-              episode={episode}
-              onClick={() => navigate(`/episodes/${episode.id}`)}
-            />
-          ))}
-        </div>
-      )}
+      <div className="flex flex-wrap gap-4 justify-center max-h-[70dvh] overflow-y-auto w-full">
+        {episodes.map((episode) => (
+          <EpisodeCard key={episode.id} episode={episode} onClick={() => {navigate(`/episodes/${episode.id}`)}} />
+        ))}
+      </div>
 
       {!loading && (
-        <Pagination
-          page={page}
-          pageInfo={{
-            pages: pageInfo ? pageInfo.pages * 2 : 0, // ✅ double the number of frontend pages
-          }}
-          setPage={setPage}
-        />
+        <Pagination page={page} pageInfo={pageInfo} setPage={setPage} />
       )}
     </div>
   );
