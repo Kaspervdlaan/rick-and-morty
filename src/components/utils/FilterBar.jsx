@@ -3,7 +3,7 @@ import FilterChip from "./FilterChip";
 
 const input =
   "h-8 px-2 text-xs border border-gray-300 rounded-md bg-white";
-const btn = "h-8 px-3 text-xs rounded-md transition";
+const btn = "cursor-pointer h-8 px-3 text-xs rounded-md transition";
 
 export default function FilterBar({
   filterMeta,
@@ -80,7 +80,7 @@ export default function FilterBar({
 
           <button
             type="submit"
-            className={btn + " bg-blue-light text-white hover:bg-blue-light"}
+            className={btn + " bg-blue-light text-white hover:bg-blue-medium"}
           >
             Apply
           </button>

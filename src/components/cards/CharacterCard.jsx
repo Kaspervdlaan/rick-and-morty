@@ -5,7 +5,7 @@ const CharacterCard = ({ character, onClick }) => {
     <div
       key={character.id}
       onClick={() => onClick(character)}
-      className={`flex items-center h-[110px] px-4 py-2 w-80 md:w-60 rounded-xl shadow-md overflow-hidden hover:shadow-lg hover:scale-[1.02] transition-all duration-100 cursor-pointer bg-white`}
+      className={`flex items-center h-[110px] px-4 py-2 w-80 md:w-60 rounded-xl shadow-md overflow-hidden hover:shadow-lg hover:scale-[1.02] transition-all duration-100 bg-white cursor-pointer`}
     >
       {/* Image */}
       <img

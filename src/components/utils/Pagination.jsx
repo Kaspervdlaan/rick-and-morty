@@ -33,7 +33,7 @@ const Pagination = ({ page, pageInfo, setPage }) => {
       <button
         disabled={page <= 1}
         onClick={() => setPage((prev) => Math.max(1, prev - 1))}
-        className={`${page <= 1 ? "cursor-default" : "cursor-pointer"} h-9 px-3 rounded-md border border-gray-300 bg-white hover:bg-blue-light hover:text-white disabled:opacity-50`}
+        className={`${page <= 1 ? "cursor-default" : "cursor-pointer"} h-9 px-3 rounded-md border border-gray-300 bg-white hover:bg-blue-medium hover:text-white disabled:opacity-50`}
       >
         {"<"}
       </button>
@@ -51,7 +51,7 @@ const Pagination = ({ page, pageInfo, setPage }) => {
             className={`h-9 px-3 rounded-md cursor-pointer ${
               p === page
                 ? "bg-blue-light text-white"
-                : "bg-white hover:bg-blue-light hover:text-white"
+                : "bg-white hover:bg-blue-medium hover:text-white"
             }`}
           >
             {p}
@@ -63,7 +63,7 @@ const Pagination = ({ page, pageInfo, setPage }) => {
       <button
         disabled={page >= totalPages}
         onClick={() => setPage((prev) => Math.min(totalPages, prev + 1))}
-        className="cursor-pointer h-9 px-3 rounded-md bg-white hover:bg-blue-light hover:text-white disabled:opacity-50"
+        className="cursor-pointer h-9 px-3 rounded-md bg-white hover:bg-blue-medium hover:text-white disabled:opacity-50"
       >
         {">"}
       </button>
