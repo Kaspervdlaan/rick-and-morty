@@ -9,17 +9,16 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="w-full text-white">
+    <header className="w-full text-white md:mt-2">
       <div className="max-w-6xl mx-auto flex items-center justify-between md:px-4 py-3">
-        {/* Logo */}
         <img
           onClick={() => navigate("/")}
           src={logo}
-          alt="Portal"
+          alt="Logo"
           className="h-16 cursor-pointer"
         />
 
-        {/* Desktop Nav */}
+        {/* Desktop Menu */}
         <nav className="hidden md:block">
           <ul className="flex space-x-6">
             <li>
@@ -62,7 +61,7 @@ const Header = () => {
           </ul>
         </nav>
 
-        {/* Hamburger button (only mobile) */}
+        {/* Mobile Menu */}
         <button
           className="md:hidden text-3xl focus:outline-none"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -71,28 +70,25 @@ const Header = () => {
         </button>
       </div>
 
-      {/* Mobile Slide-in Menu */}
       <AnimatePresence>
         {menuOpen && (
           <>
-            {/* Overlay */}
             <motion.div
-              className="fixed inset-0 bg-black/50 z-40"
+              className="fixed inset-0 bg-black/50 backdrop-blur-xs z-40"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setMenuOpen(false)}
             />
 
-            {/* Sidebar */}
             <motion.nav
-              className="fixed top-0 right-0 h-full w-64 bg-gradient-to-b from-green-light to-green-dark bg-opacity-95 z-50 shadow-lg"
+              className="fixed top-0 right-0 h-full w-64 bg-gradient-to-b from-green-light/95 to-green-dark/95 z-50 shadow-lg"
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 260, damping: 30 }}
             >
-              <ul className="flex flex-col items-start space-y-6 p-6 text-lg">
+              <ul className="flex flex-col items-start gap-6 p-6 text-lg">
                 <li>
                   <NavLink
                     to="/"

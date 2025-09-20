@@ -1,4 +1,4 @@
-const Pagination = ({ page, pageInfo, setPage }) => {
+const Pagination = ({ page, pageInfo, setPage, bottom }) => {
   const totalPages = pageInfo?.pages ?? 1;
 
   // helper: generate page numbers with ellipsis
@@ -28,12 +28,12 @@ const Pagination = ({ page, pageInfo, setPage }) => {
   const pages = getPageNumbers();
 
   return (
-    <div className="flex h-8 justify-center items-center gap-2 mt-4 ml-2 text-sm">
+    <div className={`flex h-8 justify-center items-center gap-2 text-sm ${bottom ? 'mt-4' : 'mb-4'}`}>
       {/* Prev button */}
       <button
         disabled={page <= 1}
         onClick={() => setPage((prev) => Math.max(1, prev - 1))}
-        className={`${page <= 1 ? "cursor-default" : "cursor-pointer"} h-9 px-3 rounded-md border border-gray-300 bg-white hover:bg-blue-medium hover:text-white disabled:opacity-50`}
+        className={`${page <= 1 ? "cursor-default" : "cursor-pointer"} h-8 px-3 rounded-md border border-gray-300 bg-white hover:bg-blue-medium hover:text-white disabled:opacity-50`}
       >
         {"<"}
       </button>
@@ -48,7 +48,7 @@ const Pagination = ({ page, pageInfo, setPage }) => {
           <button
             key={idx}
             onClick={() => setPage(p)}
-            className={`h-9 px-3 rounded-md cursor-pointer ${
+            className={`h-8 px-2 md:px-3 rounded-md cursor-pointer ${
               p === page
                 ? "bg-blue-light text-white"
                 : "bg-white hover:bg-blue-medium hover:text-white"
@@ -63,7 +63,7 @@ const Pagination = ({ page, pageInfo, setPage }) => {
       <button
         disabled={page >= totalPages}
         onClick={() => setPage((prev) => Math.min(totalPages, prev + 1))}
-        className="cursor-pointer h-9 px-3 rounded-md bg-white hover:bg-blue-medium hover:text-white disabled:opacity-50"
+        className="cursor-pointer h-8 px-3 rounded-md bg-white hover:bg-blue-medium hover:text-white disabled:opacity-50"
       >
         {">"}
       </button>

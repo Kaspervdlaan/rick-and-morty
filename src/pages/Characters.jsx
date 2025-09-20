@@ -92,6 +92,10 @@ const Characters = () => {
         mainField={{ key: "name", placeholder: "Rick ..." }}
       />
 
+      {!loading && (
+        <Pagination page={page} pageInfo={pageInfo} setPage={setPage} />
+      )}
+
       <div className="flex flex-wrap gap-4 justify-center w-full">
         {loading ? (
           <Loading subject="characters" />
@@ -112,7 +116,7 @@ const Characters = () => {
       </div>
 
       {!loading && (
-        <Pagination page={page} pageInfo={pageInfo} setPage={setPage} />
+        <Pagination page={page} pageInfo={pageInfo} setPage={setPage} bottom={true} />
       )}
 
       <Modal

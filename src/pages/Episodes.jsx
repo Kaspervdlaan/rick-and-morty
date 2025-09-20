@@ -72,7 +72,14 @@ const Episodes = () => {
         mainField={{ key: "name", placeholder: "Pilot ..." }}
       />
 
-      {/* Character grid */}
+      {!loading && (
+        <Pagination
+          page={page}
+          pageInfo={{ ...pageInfo, pages: pageInfo ? pageInfo.pages * 2 : 0 }}
+          setPage={setPage}
+        />
+      )}
+
       <div className="flex flex-wrap gap-4 justify-center w-full">
         {loading ? (
           <Loading subject="characters" />
@@ -94,6 +101,7 @@ const Episodes = () => {
           page={page}
           pageInfo={{ ...pageInfo, pages: pageInfo ? pageInfo.pages * 2 : 0 }}
           setPage={setPage}
+          bottom={true}
         />
       )}
     </div>
