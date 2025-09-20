@@ -1,10 +1,10 @@
 import { sliceString } from "../../utils/sliceString";
 
 const getCharactersBg = (count) => {
-  if (count > 30) return "bg-purple-300"; // very many characters
-  if (count > 20) return "bg-blue-300";   // many characters
-  if (count > 0) return "bg-green-300";   // at least 1 character
-  return "bg-gray-300";                   // no characters
+  if (count > 30) return "bg-purple-light"; 
+  if (count > 20) return "bg-blue-light";   
+  if (count > 0) return "bg-green-light";   
+  return "bg-gray-300";                   
 };
 
 const EpisodeCard = ({ episode, onClick }) => {

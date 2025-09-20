@@ -1,8 +1,9 @@
 import { sliceString } from "../../utils/sliceString";
 
 const getResidentsBg = (count) => {
-  if (count > 100) return "bg-blue-300";
-  if (count > 0) return "bg-green-300";
+  if (count > 100) return "bg-purple-light";
+  if (count > 20) return "bg-blue-light";
+  if (count > 0) return "bg-green-light";
   return "bg-gray-300";
 };
 

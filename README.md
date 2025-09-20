@@ -19,5 +19,6 @@
 - [React Router]
 - [React Icons]
 - [Tailwind]
+- [Framer Motion]
 
 ---
