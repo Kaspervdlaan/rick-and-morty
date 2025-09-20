@@ -83,7 +83,6 @@ const Characters = () => {
 
   return (
     <div className="flex flex-col items-start">
-      {/* 72px */}
       <FilterBar 
         filterMeta={CHARACTER_FILTER_META}
         filterDraft={filterDraft}
@@ -93,7 +92,6 @@ const Characters = () => {
         mainField={{ key: "name", placeholder: "Rick ..." }}
       />
 
-      {/* Character grid */}
       <div className="flex flex-wrap gap-4 justify-center w-full">
         {loading ? (
           <Loading subject="characters" />
@@ -113,12 +111,10 @@ const Characters = () => {
         )}
       </div>
 
-      {/* Pagination 32px*/}
       {!loading && (
         <Pagination page={page} pageInfo={pageInfo} setPage={setPage} />
       )}
 
-      {/* Modal */}
       <Modal
         isOpen={isCharacterModalOpen}
         onClose={() => setCharacterModalOpen(false)}

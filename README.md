@@ -1,7 +1,5 @@
 # Rick and Morty Project
 
-A simple project to explore the Rick and Morty universe.
-
 ## How to start project
 
 1. **Install dependencies:**

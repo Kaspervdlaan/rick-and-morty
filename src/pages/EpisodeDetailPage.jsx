@@ -6,6 +6,8 @@ import CharacterCard from '../components/cards/CharacterCard';
 import Modal from '../components/models/Modal';
 import CharacterDetails from '../components/models/CharacterDetails';
 
+const API_BASE = "https://rickandmortyapi.com/api/";
+
 const EpisodeDetailPage = () => {
   const { id } = useParams();
   const [episode, setEpisode] = useState(null);
@@ -21,7 +23,7 @@ const EpisodeDetailPage = () => {
     const fetchEpisode = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`https://rickandmortyapi.com/api/episode/${id}`);
+        const res = await fetch(`${API_BASE}/episode/${id}`);
         if (!res.ok) throw new Error('Failed to fetch episode');
         const data = await res.json();
         setEpisode(data);
@@ -30,9 +32,7 @@ const EpisodeDetailPage = () => {
         if (data.characters?.length) {
           setCharactersLoading(true);
           const charIds = data.characters.map(url => url.split('/').pop());
-          const charRes = await fetch(
-            `https://rickandmortyapi.com/api/character/${charIds.join(',')}`
-          );
+          const charRes = await fetch(`${API_BASE}/character/${charIds.join(',')}`);
           if (!charRes.ok) throw new Error('Failed to fetch characters');
           const charData = await charRes.json();
           setCharacters(Array.isArray(charData) ? charData : [charData]);
@@ -85,7 +85,7 @@ const EpisodeDetailPage = () => {
         ) : characters.length === 0 ? (
           <p className="mt-2 text-sm text-gray-500">No known characters.</p>
         ) : (
-          <div className="flex flex-wrap gap-2 max-h-[60vh] justify-center overflow-y-auto">
+          <div className="flex flex-wrap gap-2 justify-center">
             {characters.map(character => (
               <CharacterCard
                 key={character.id}

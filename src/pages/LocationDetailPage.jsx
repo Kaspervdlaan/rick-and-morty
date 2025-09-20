@@ -12,6 +12,8 @@ const chunk = (arr, size) => {
   return chunks;
 };
 
+const API_BASE = "https://rickandmortyapi.com/api";
+
 const LocationDetailPage = () => {
   const { id } = useParams();
   const [location, setLocation] = useState(null);
@@ -35,7 +37,7 @@ const LocationDetailPage = () => {
     const fetchLocation = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`https://rickandmortyapi.com/api/location/${id}`);
+        const res = await fetch(`${API_BASE}/location/${id}`);
         if (!res.ok) throw new Error('Failed to fetch location');
         const data = await res.json();
         setLocation(data);
@@ -61,7 +63,7 @@ const LocationDetailPage = () => {
         const batches = chunk(residentIds, 20);
         const responses = await Promise.all(
           batches.map(ids =>
-            fetch(`https://rickandmortyapi.com/api/character/${ids.join(',')}`)
+            fetch(`${API_BASE}/character/${ids.join(',')}`)
           )
         );
 
@@ -124,7 +126,7 @@ const LocationDetailPage = () => {
           ) : residents.length === 0 ? (
             <p className="mt-2 text-sm text-gray-500">No known residents.</p>
           ) : (
-            <div className="flex flex-wrap gap-2 max-h-[60vh] justify-center overflow-y-auto">
+            <div className="flex flex-wrap gap-2 justify-center">
               {residents.map((character) => (
                 <CharacterCard
                   key={character.id}

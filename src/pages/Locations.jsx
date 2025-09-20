@@ -1,9 +1,13 @@
 import { useEffect, useMemo, useState, useRef, useCallback } from "react";
 import { useNavigate } from "react-router";
+
 import axios from "axios";
+
 import LocationCard from "../components/cards/LocationCard";
 import Loading from "../components/utils/Loading";
 import FilterBar from "../components/utils/FilterBar";
+
+const API_BASE = "https://rickandmortyapi.com/api/location";
 
 const LOCATION_FILTER_META = {
   type: { label: "Type", type: "text" },
@@ -16,8 +20,6 @@ const Locations = () => {
   const [pageInfo, setPageInfo] = useState(null);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-
-  const API_BASE = "https://rickandmortyapi.com/api/location";
 
   const [filters, setFilters] = useState({
     name: "",
@@ -117,7 +119,12 @@ const Locations = () => {
       )}
 
       <div className="flex flex-wrap gap-4 justify-center w-full">
-        {locations.map((location, index) => {
+        {loading ? (
+          <Loading subject="locations" />
+        ) : errorMsg ? (
+          <div className="text-center text-gray-600 text-sm">{errorMsg}</div>
+        ) : (
+          locations.map((location, index) => {
           // attach observer to the last card
           if (index === locations.length - 1) {
             return (
@@ -136,7 +143,8 @@ const Locations = () => {
               onClick={() => navigate(`/locations/${location.id}`)}
             />
           );
-        })}
+        })  
+        )}
       </div>
 
       {loading && (

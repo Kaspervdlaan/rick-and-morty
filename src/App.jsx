@@ -10,7 +10,7 @@ import LocationDetailPage from "./pages/LocationDetailPage"
 
 const App = () => {
   return (
-    <div className="min-h-[100dvh] flex justify-center bg-[url('./assets/bgrick.png')] bg-cover bg-center">
+    <div className="min-h-[100dvh] flex justify-center bg-[url('./assets/bgstars.png')] md:bg-[url('./assets/bgrick.png')] md:bg-cover bg-center">
       <Wrapper>
         <Header />
         <Routes>
