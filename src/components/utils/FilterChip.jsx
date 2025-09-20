@@ -6,7 +6,7 @@ const iconBtn =
 export default function FilterChip({ k, meta, value, onChange, onRemove }) {
   return (
     <div key={meta.label} className="flex items-center gap-2 rounded-md border border-gray-200 bg-gray-50 px-2">
-      <span className="text-[11px] font-medium text-gray-600">
+      <span className="text-[11px] text-gray-600">
         {meta.label}
       </span>
 

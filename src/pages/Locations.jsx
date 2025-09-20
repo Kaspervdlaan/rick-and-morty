@@ -105,7 +105,7 @@ const Locations = () => {
         setFilterDraft={setFilterDraft}
         onApply={applyFilters}
         onClear={clearFilters}
-        mainField={{ key: "name", placeholder: "e.g. Earth" }}
+        mainField={{ key: "name", placeholder: "Earth ..." }}
       />
 
       {errorMsg && (
@@ -116,7 +116,7 @@ const Locations = () => {
         </div>
       )}
 
-      <div className="flex flex-wrap gap-4 justify-center max-h-[70vh] overflow-y-auto w-full">
+      <div className="flex flex-wrap gap-4 justify-center w-full">
         {locations.map((location, index) => {
           // attach observer to the last card
           if (index === locations.length - 1) {

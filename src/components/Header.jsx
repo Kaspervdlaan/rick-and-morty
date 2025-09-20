@@ -86,7 +86,7 @@ const Header = () => {
 
             {/* Sidebar */}
             <motion.nav
-              className="fixed top-0 right-0 h-full w-64 bg-[#2ECC71] bg-opacity-95 z-50 shadow-lg"
+              className="fixed top-0 right-0 h-full w-64 bg-gradient-to-b from-green-light to-green-dark bg-opacity-95 z-50 shadow-lg"
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}

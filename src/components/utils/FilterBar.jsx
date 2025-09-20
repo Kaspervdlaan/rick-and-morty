@@ -124,7 +124,7 @@ export default function FilterBar({
         </div>
 
         {/* Active filter chips */}
-        <div className="flex gap-2 overflow-x-auto whitespace-nowrap max-w-full py-1">
+        <div className="flex gap-2 overflow-x-auto whitespace-nowrap max-w-full">
           {activeKeys.map((k) => (
             <div key={k} className="shrink-0">
               <FilterChip

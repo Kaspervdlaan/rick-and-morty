@@ -82,7 +82,7 @@ const Characters = () => {
   };
 
   return (
-    <div className="flex flex-col items-start h-[calc(100dvh-120px)]">
+    <div className="flex flex-col items-start">
       {/* 72px */}
       <FilterBar 
         filterMeta={CHARACTER_FILTER_META}
@@ -90,11 +90,11 @@ const Characters = () => {
         setFilterDraft={setFilterDraft}
         onApply={applyFilters}
         onClear={clearFilters}
-        mainField={{ key: "name", placeholder: "e.g. Rick" }}
+        mainField={{ key: "name", placeholder: "Rick ..." }}
       />
 
       {/* Character grid */}
-      <div className="flex flex-wrap gap-4 max-h-[80%] justify-center w-full overflow-y-auto">
+      <div className="flex flex-wrap gap-4 justify-center w-full">
         {loading ? (
           <Loading subject="characters" />
         ) : errorMsg ? (

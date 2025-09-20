@@ -96,17 +96,17 @@ const Episodes = () => {
   }, [page]);
 
   return (
-    <div className="flex flex-col items-start h-[calc(100dvh-120px)]">
+    <div className="flex flex-col items-start">
       <FilterBar
         filterMeta={EPISODE_FILTER_META}
         filterDraft={filterDraft}
         setFilterDraft={setFilterDraft}
         onApply={applyFilters}
         onClear={clearFilters}
-        mainField={{ key: "name", placeholder: "e.g. Pilot" }}
+        mainField={{ key: "name", placeholder: "Pilot ..." }}
       />
 
-      <div className="flex flex-wrap gap-4 justify-center max-h-[70dvh] overflow-y-auto w-full">
+      <div className="flex flex-wrap gap-4 justify-center w-full">
         {episodes.map((episode) => (
           <EpisodeCard key={episode.id} episode={episode} onClick={() => {navigate(`/episodes/${episode.id}`)}} />
         ))}
