@@ -12,8 +12,8 @@ const App = () => {
   const location = useLocation();
 
   const backgrounds = {
-    "/": "bg-[url('./assets/bgrick.png')] bg-cover bg-center bg-no-repeat",
-    "/episodes": "bg-[url('./assets/bgrick.png')] bg-cover bg-center bg-no-repeat",
+    "/": "bg-[url('./assets/bgstars.png')] md:bg-[url('./assets/bgrick.png')] md:bg-cover bg-center md:bg-no-repeat",
+    "/episodes": "bg-[url('./assets/bgstars.png')] md:bg-[url('./assets/bgrick.png')] md:bg-cover bg-center md:bg-no-repeat",
     "/locations": "bg-[url('./assets/bgstars.png')]",
   }
 

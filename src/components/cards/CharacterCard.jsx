@@ -1,3 +1,4 @@
+import { capitalizeString } from "../../utils/capitalizeString";
 import {sliceString} from "../../utils/sliceString";
 
 const getStatusBg = (status) => {
@@ -26,7 +27,7 @@ const CharacterCard = ({ character, onClick }) => {
         <span
           className={`inline-block mt-1 text-[10px] font-semibold px-2 py-1 rounded-full text-gray-700 ${getStatusBg(character.status)}`}
         >
-          {character.status}
+          {capitalizeString(character.status)}
         </span>
       </div>
     </div>
