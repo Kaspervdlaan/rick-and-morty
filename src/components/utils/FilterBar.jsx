@@ -98,7 +98,7 @@ export default function FilterBar({
           {menuOpen && (
             <div
               role="menu"
-              className="absolute z-20 mt-1 w-44 rounded-md border border-gray-200 bg-white p-1 shadow-lg"
+              className="absolute z-20 top-10 w-44 rounded-md border border-gray-200 bg-white p-1 shadow-lg"
             >
               {availableKeys.length ? (
                 availableKeys.map((k) => (
