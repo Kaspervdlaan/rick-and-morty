@@ -21,4 +21,8 @@
 - [Tailwind]
 - [Framer Motion]
 
+## Color palette
+
+![alt text](palette.png)
+
 ---
