@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState, useRef, useCallback } from "react";
 import { useNavigate } from "react-router";
-
 import axios from "axios";
 
 import LocationCard from "../components/cards/LocationCard";
@@ -28,6 +27,7 @@ const Locations = () => {
   });
 
   const [filterDraft, setFilterDraft] = useState(filters);
+  const [appliedFilters, setAppliedFilters] = useState(filters);
 
   const queryString = useMemo(() => {
     const params = new URLSearchParams();
@@ -44,13 +44,20 @@ const Locations = () => {
       setErrorMsg("");
       try {
         const res = await axios.get(`${API_BASE}?${queryString}`);
-        if (page === 1) {
-          // Reset when filters change or first load
+
+        // check if filters changed since last fetch
+        const filtersChanged =
+          JSON.stringify(filters) !== JSON.stringify(appliedFilters);
+
+        if (page === 1 || filtersChanged) {
+          // reset when filters change
           setLocations(res.data.results || []);
+          setAppliedFilters(filters);
         } else {
-          // Append when scrolling
+          // append when scrolling
           setLocations((prev) => [...prev, ...(res.data.results || [])]);
         }
+
         setPageInfo(res.data.info || null);
       } catch (error) {
         if (error?.response?.status === 404) {
@@ -65,6 +72,7 @@ const Locations = () => {
         setLoading(false);
       }
     };
+
     fetchLocations();
   }, [queryString]);
 
@@ -119,13 +127,7 @@ const Locations = () => {
       )}
 
       <div className="flex flex-wrap gap-4 justify-center w-full">
-        {loading ? (
-          <Loading subject="locations" />
-        ) : errorMsg ? (
-          <div className="text-center text-gray-600 text-sm">{errorMsg}</div>
-        ) : (
-          locations.map((location, index) => {
-          // attach observer to the last card
+        {locations.map((location, index) => {
           if (index === locations.length - 1) {
             return (
               <div ref={lastElementRef} key={location.id}>
@@ -143,13 +145,12 @@ const Locations = () => {
               onClick={() => navigate(`/locations/${location.id}`)}
             />
           );
-        })  
-        )}
+        })}
       </div>
 
       {loading && (
         <div className="flex justify-center py-10">
-          <Loading />
+          <Loading subject="locations" />
         </div>
       )}
     </div>
