@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router"
+import { Route, Routes, useLocation } from "react-router"
 
 import Characters from "./pages/Characters"
 import Episodes from "./pages/Episodes"
@@ -9,8 +9,16 @@ import EpisodeDetailPage from "./pages/EpisodeDetailPage"
 import LocationDetailPage from "./pages/LocationDetailPage"
 
 const App = () => {
+  const location = useLocation();
+
+  const backgrounds = {
+    "/": "bg-[url('./assets/bgrick.png')] bg-cover bg-center bg-no-repeat",
+    "/episodes": "bg-[url('./assets/bgrick.png')] bg-cover bg-center bg-no-repeat",
+    "/locations": "bg-[url('./assets/bgstars.png')]",
+  }
+
   return (
-    <div className="min-h-[100dvh] flex justify-center bg-[url('./assets/bgstars.png')] md:bg-[url('./assets/bgrick.png')] md:bg-cover bg-center">
+    <div className={`min-h-[100dvh] flex justify-center ${backgrounds[location.pathname] || 'bg-[url(\'./assets/bgstars.png\')]'} `}>
       <Wrapper>
         <Header />
         <Routes>

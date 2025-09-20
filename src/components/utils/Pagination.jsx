@@ -28,7 +28,7 @@ const Pagination = ({ page, pageInfo, setPage }) => {
   const pages = getPageNumbers();
 
   return (
-    <div className="flex h-8 justify-center items-center gap-2 mt-4 ml-2 md:ml-6 text-sm">
+    <div className="flex h-8 justify-center items-center gap-2 mt-4 ml-2 text-sm">
       {/* Prev button */}
       <button
         disabled={page <= 1}

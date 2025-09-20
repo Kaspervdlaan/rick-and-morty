@@ -17,7 +17,7 @@ export default function FilterBar({
   const [activeKeys, setActiveKeys] = useState([]);
   const menuRef = useRef(null);
 
-  // close menu on outside click
+  // Outside click listener
   useEffect(() => {
     function handler(e) {
       if (!menuRef.current) return;
@@ -44,10 +44,9 @@ export default function FilterBar({
   return (
     <form
       onSubmit={onApply}
-      className="max-w-[90vw] h-auto mb-4 rounded-xl md:px-3 md:mx-3"
+      className="mb-4"
     >
       <div className="flex flex-wrap items-center gap-2">
-        {/* Always visible main field */}
         {mainField && (
           <div className="flex items-center gap-2">
             <input
@@ -64,7 +63,6 @@ export default function FilterBar({
           </div>
         )}
 
-        {/* Filters + + Apply + Clear */}
         <div className="relative flex items-center gap-2" ref={menuRef}>
           <button
             type="button"
@@ -123,7 +121,6 @@ export default function FilterBar({
           )}
         </div>
 
-        {/* Active filter chips */}
         <div className="flex gap-2 overflow-x-auto whitespace-nowrap max-w-full">
           {activeKeys.map((k) => (
             <div key={k} className="shrink-0">
