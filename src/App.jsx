@@ -18,9 +18,10 @@ const App = () => {
   }
 
   return (
-    <div className={`min-h-[100dvh] flex justify-center ${backgrounds[location.pathname] || 'bg-[url(\'./assets/bgstars.png\')]'} `}>
+    <div className={`min-h-[100dvh] flex flex-col items-center ${backgrounds[location.pathname] || 'bg-[url(\'./assets/bgstars.png\')]'} `}>
+              <Header />
       <Wrapper>
-        <Header />
+
         <Routes>
           <Route path="/" element={<Characters />} />
           <Route path="/episodes" element={<Episodes />} />

@@ -9,7 +9,7 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="w-full text-white md:mt-2">
+    <header className="w-full z-30 sticky top-0 text-white border-b border-b-green-light/50 bg-black/90 px-3 mb-4 md:py-2">
       <div className="max-w-6xl mx-auto flex items-center justify-between md:px-4 py-3">
         <img
           onClick={() => navigate("/")}
